@@ -27,12 +27,11 @@ setup(
     name="seep",
     version=__version__,
     packages=find_packages(),
-    py_modules=(),
     author="Julian Berman",
     author_email="Julian@GrayVines.com",
     classifiers=classifiers,
     description="",
     license="MIT",
     long_description=long_description,
-    url="",
+    url="https://github.com/Julian/Seep",
 )
