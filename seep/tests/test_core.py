@@ -7,9 +7,9 @@ import seep
 class TestExtract(TestCase):
     def test_validation_error(self):
         with self.assertRaises(jsonschema.ValidationError):
-            seep.deserialize("foo", {"type" : "integer"})
+            seep.instantiate("foo", {"type" : "integer"})
 
     def test_annotate(self):
         instance = {"foo" : 12}
         schema = {"properties" : {"foo" : {"annotate" : "bar"}}}
-        self.assertEqual(seep.deserialize(instance, schema), {"bar" : 12})
+        self.assertEqual(seep.instantiate(instance, schema), {"bar" : 12})
