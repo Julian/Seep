@@ -4,7 +4,7 @@ import jsonschema
 import seep
 
 
-class TestExtract(TestCase):
+class TestInstantiate(TestCase):
     def test_validation_error(self):
         with self.assertRaises(jsonschema.ValidationError):
             seep.instantiate("foo", {"type" : "integer"})
