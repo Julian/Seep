@@ -1,0 +1,11 @@
+language: python
+python:
+  - "pypy"
+  - "2.7"
+  - "3.2"
+  - "3.3"
+install:
+    - python setup.py -q install
+script:
+    - py.test --tb=native seep
+    - python -m doctest README.rst
