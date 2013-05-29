@@ -9,7 +9,7 @@ class TestInstantiate(TestCase):
         with self.assertRaises(jsonschema.ValidationError):
             seep.instantiate("foo", {"type" : "integer"})
 
-    def test_annotate(self):
+    def test_rename(self):
         instance = {"foo" : 12}
-        schema = {"properties" : {"foo" : {"annotate" : "bar"}}}
+        schema = {"properties" : {"foo" : {"rename" : "bar"}}}
         self.assertEqual(seep.instantiate(instance, schema), {"bar" : 12})

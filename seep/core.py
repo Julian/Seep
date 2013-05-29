@@ -17,7 +17,7 @@ def instantiate(data, blueprint):
 def _make_blueprinter(Validator):
     return jsonschema.validators.extend(
         Validator, {
-            "annotate" : _annotate,
+            "rename" : _rename,
         }
     )
 
@@ -25,9 +25,9 @@ def _make_blueprinter(Validator):
 def blueprint_using(blueprinter, data):
     blueprinter._seep = {}
     blueprinter.validate(data)
-    return blueprinter._seep.get("annotations")
+    return blueprinter._seep.get("names")
 
 
-def _annotate(validator, annotation, instance, schema):
-    annotations = validator._seep.setdefault("annotations", {})
+def _rename(validator, annotation, instance, schema):
+    annotations = validator._seep.setdefault("names", {})
     annotations[annotation] = instance
