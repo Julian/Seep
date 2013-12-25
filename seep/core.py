@@ -1,6 +1,26 @@
 import jsonschema.validators
 
 
+def extend(validator_cls):
+    """
+    Extend the given :class:`jsonschema.IValidator` with the Seep layer.
+
+    """
+
+    Validator = jsonschema.validators.extend(
+        validator_cls, {
+            "properties" : _properties_with_defaults(validator_cls),
+        }
+    )
+
+    class Blueprinter(Validator):
+        def instantiate(self, data):
+            self.validate(data)
+            return data
+
+    return Blueprinter
+
+
 def instantiate(data, blueprint):
     """
     Instantiate the given data using the blueprinter.
@@ -10,24 +30,18 @@ def instantiate(data, blueprint):
     """
 
     Validator = jsonschema.validators.validator_for(blueprint)
-    blueprinter = _make_blueprinter(Validator)(blueprint)
-    return blueprint_using(blueprinter, data)
+    blueprinter = extend(Validator)(blueprint)
+    return blueprinter.instantiate(data)
 
 
-def _make_blueprinter(Validator):
-    return jsonschema.validators.extend(
-        Validator, {
-            "rename" : _rename,
-        }
-    )
+def _properties_with_defaults(validator_cls):
+    def properties_with_defaults(validator, properties, instance, schema):
+        for error in validator_cls.VALIDATORS["properties"](
+            validator, properties, instance, schema
+        ):
+            yield error
 
-
-def blueprint_using(blueprinter, data):
-    blueprinter._seep = {}
-    blueprinter.validate(data)
-    return blueprinter._seep.get("names")
-
-
-def _rename(validator, annotation, instance, schema):
-    annotations = validator._seep.setdefault("names", {})
-    annotations[annotation] = instance
+        for property, subschema in properties.iteritems():
+            if "default" in subschema and property not in instance:
+                instance[property] = subschema["default"]
+    return properties_with_defaults
