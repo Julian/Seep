@@ -1,6 +1,17 @@
 import jsonschema.validators
 
 
+def _set_defaults(validator, properties, instance, schema):
+    for property, subschema in properties.iteritems():
+        if "default" in subschema and property not in instance:
+            instance[property] = subschema["default"]
+
+
+DefaultSetter = jsonschema.validators.create(
+    meta_schema={}, validators={"properties": _set_defaults},
+)
+
+
 def extend(validator_cls):
     """
     Extend the given :class:`jsonschema.IValidator` with the Seep layer.
@@ -41,7 +52,14 @@ def _properties_with_defaults(validator_cls):
         ):
             yield error
 
-        for property, subschema in properties.iteritems():
-            if "default" in subschema and property not in instance:
-                instance[property] = subschema["default"]
+        subschemas = [(instance, schema)]
+        while subschemas:
+            subinstance, subschema = subschemas.pop()
+            DefaultSetter(subschema).validate(subinstance)
+            subschemas.extend(
+                (subinstance.setdefault(property, {}), subsubschema)
+                for property, subsubschema in
+                subschema.get("properties", {}).iteritems()
+            )
+
     return properties_with_defaults
