@@ -2,7 +2,7 @@ import jsonschema.validators
 
 
 def _set_defaults(validator, properties, instance, schema):
-    for property, subschema in properties.iteritems():
+    for property, subschema in properties.items():
         if "default" in subschema and property not in instance:
             instance[property] = subschema["default"]
 
@@ -59,7 +59,7 @@ def _properties_with_defaults(validator_cls):
             subschemas.extend(
                 (subinstance.setdefault(property, {}), subsubschema)
                 for property, subsubschema in
-                subschema.get("properties", {}).iteritems()
+                subschema.get("properties", {}).items()
             )
 
     return properties_with_defaults
