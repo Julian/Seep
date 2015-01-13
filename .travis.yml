@@ -1,11 +1,13 @@
 language: python
 python:
   - "pypy"
+  - "pypy3"
   - "2.7"
   - "3.2"
   - "3.3"
+  - "3.4"
 install:
-    - python setup.py -q install
+  - "pip install -r requirements.txt"
 script:
-    - py.test --tb=native seep
-    - python -m doctest README.rst
+  - py.test --tb=native seep
+  - python -m doctest README.rst
