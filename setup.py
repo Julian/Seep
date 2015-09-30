@@ -2,8 +2,6 @@ import os
 
 from setuptools import find_packages, setup
 
-from seep import __version__
-
 
 with open(os.path.join(os.path.dirname(__file__), "README.rst")) as readme:
     long_description = readme.read()
@@ -24,13 +22,15 @@ classifiers = [
 
 setup(
     name="seep",
-    version=__version__,
     packages=find_packages(),
+    install_requires=["jsonschema"],
+    setup_requires=["vcversioner"],
     author="Julian Berman",
     author_email="Julian@GrayVines.com",
     classifiers=classifiers,
-    description="",
+    description="A data coersion language built on top of jsonschema",
     license="MIT",
     long_description=long_description,
     url="https://github.com/Julian/Seep",
+    vcversioner={"version_module_paths" : ["seep/_version.py"]},
 )
