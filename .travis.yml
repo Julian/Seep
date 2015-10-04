@@ -1,11 +1,7 @@
 language: python
 python:
-  - "pypy"
   - "2.7"
-  - "3.3"
-  - "3.4"
 install:
-  - "pip install -r requirements.txt"
+  - pip install tox
 script:
-  - py.test --tb=native seep
-  - python -m doctest README.rst
+  - tox
