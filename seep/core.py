@@ -20,7 +20,7 @@ def extend(validator_cls):
 
     Validator = jsonschema.validators.extend(
         validator_cls, {
-            "properties" : _properties_with_defaults(validator_cls),
+            "properties": _properties_with_defaults(validator_cls),
         }
     )
 
