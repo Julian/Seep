@@ -18,8 +18,8 @@ class TestInstantiate(TestCase):
                 "foo": {
                     "default": {},
                     "properties": {"bar": {"default": []}},
-                }
-            }
+                },
+            },
         }
         seep.core.instantiate(data, schema)
         self.assertEqual(data, {"foo": {"bar": []}})
@@ -37,7 +37,7 @@ class TestInstantiate(TestCase):
                         },
                     },
                 },
-            }
+            },
         }
         seep.core.instantiate(data, schema)
         self.assertEqual(data, {"bar": 123, "foo": {"bar": {"baz": []}}})

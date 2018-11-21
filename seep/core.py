@@ -36,8 +36,12 @@ def instantiate(data, blueprint):
     """
     Instantiate the given data using the blueprinter.
 
-    :argument blueprint: a blueprint (JSON Schema with Seep properties)
+    Arguments
+    ---------
 
+        blueprint (collections.Mapping):
+
+            a blueprint (JSON Schema with Seep properties)
     """
 
     Validator = jsonschema.validators.validator_for(blueprint)
