@@ -1,5 +1,5 @@
-from pkg_resources import get_distribution, DistributionNotFound
 try:
-    __version__ = get_distribution(__name__).version
-except DistributionNotFound:
-    pass
+    from importlib import metadata
+except ImportError:
+    import importlib_metadata as metadata
+__version__ = metadata.version("seep")
