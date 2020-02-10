@@ -43,7 +43,7 @@ jobs:
             toxenv: py38
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version.name }}
       uses: actions/setup-python@v1
       with:
